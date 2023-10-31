@@ -360,8 +360,8 @@ static void add_lines(struct strbuf *out,
 	strbuf_complete_line(out);
 }
 
-void strbuf_add_commented_lines(struct strbuf *out, const char *buf,
-				size_t size, char comment_line_char)
+void strbuf_add_commented_lines(struct strbuf *out,
+				const char *buf, size_t size)
 {
 	static char prefix1[3];
 	static char prefix2[2];
@@ -384,7 +384,7 @@ void strbuf_commented_addf(struct strbuf *sb,
 	strbuf_vaddf(&buf, fmt, params);
 	va_end(params);
 
-	strbuf_add_commented_lines(sb, buf.buf, buf.len, comment_line_char);
+	strbuf_add_commented_lines(sb, buf.buf, buf.len);
 	if (incomplete_line)
 		sb->buf[--sb->len] = '\0';
 

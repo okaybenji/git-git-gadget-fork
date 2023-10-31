@@ -287,8 +287,7 @@ void strbuf_splice(struct strbuf *sb, size_t pos, size_t len,
  * by a comment character and a blank.
  */
 void strbuf_add_commented_lines(struct strbuf *out,
-				const char *buf, size_t size,
-				char comment_line_char);
+				const char *buf, size_t size);
 
 
 /**
