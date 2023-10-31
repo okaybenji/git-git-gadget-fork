@@ -1,5 +1,4 @@
 #include "git-compat-util.h"
-#include "environment.h"
 #include "gettext.h"
 #include "hex-ll.h"
 #include "strbuf.h"
@@ -358,37 +357,6 @@ void strbuf_add_lines_varied_prefix(struct strbuf *sb,
 		buf = next;
 	}
 	strbuf_complete_line(sb);
-}
-
-void strbuf_add_commented_lines(struct strbuf *out,
-				const char *buf, size_t size)
-{
-	static char prefix1[3];
-	static char prefix2[2];
-
-	if (prefix1[0] != comment_line_char) {
-		xsnprintf(prefix1, sizeof(prefix1), "%c ", comment_line_char);
-		xsnprintf(prefix2, sizeof(prefix2), "%c", comment_line_char);
-	}
-	strbuf_add_lines_varied_prefix(out, prefix1, prefix2, buf, size);
-}
-
-void strbuf_commented_addf(struct strbuf *sb,
-			   const char *fmt, ...)
-{
-	va_list params;
-	struct strbuf buf = STRBUF_INIT;
-	int incomplete_line = sb->len && sb->buf[sb->len - 1] != '\n';
-
-	va_start(params, fmt);
-	strbuf_vaddf(&buf, fmt, params);
-	va_end(params);
-
-	strbuf_add_commented_lines(sb, buf.buf, buf.len);
-	if (incomplete_line)
-		sb->buf[--sb->len] = '\0';
-
-	strbuf_release(&buf);
 }
 
 void strbuf_vaddf(struct strbuf *sb, const char *fmt, va_list ap)
