@@ -601,6 +601,10 @@ void strbuf_add_lines(struct strbuf *sb,
 		      const char *prefix,
 		      const char *buf,
 		      size_t size);
+void strbuf_add_lines_varied_prefix(struct strbuf *sb,
+				    const char *default_prefix,
+				    const char *tab_nl_prefix,
+				    const char *buf, size_t size);
 
 /**
  * Append s to sb, with the characters '<', '>', '&' and '"' converted
