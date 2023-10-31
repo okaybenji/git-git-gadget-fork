@@ -1,4 +1,5 @@
 #include "git-compat-util.h"
+#include "environment.h"
 #include "gettext.h"
 #include "hex-ll.h"
 #include "strbuf.h"
@@ -372,7 +373,7 @@ void strbuf_add_commented_lines(struct strbuf *out, const char *buf,
 	add_lines(out, prefix1, prefix2, buf, size);
 }
 
-void strbuf_commented_addf(struct strbuf *sb, char comment_line_char,
+void strbuf_commented_addf(struct strbuf *sb,
 			   const char *fmt, ...)
 {
 	va_list params;
