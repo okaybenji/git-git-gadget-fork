@@ -770,6 +770,10 @@ static int sparse_checkout_add(int argc, const char **argv, const char *prefix)
 			     builtin_sparse_checkout_add_usage,
 			     PARSE_OPT_KEEP_UNKNOWN_OPT);
 
+	if (argc && !strcmp(*argv, "--end-of-options")) {
+		argc--;
+		argv++;
+	}
 	sanitize_paths(argc, argv, prefix, add_opts.skip_checks);
 
 	return modify_pattern_list(argc, argv, add_opts.use_stdin, ADD);
@@ -815,6 +819,11 @@ static int sparse_checkout_set(int argc, const char **argv, const char *prefix)
 			     builtin_sparse_checkout_set_options,
 			     builtin_sparse_checkout_set_usage,
 			     PARSE_OPT_KEEP_UNKNOWN_OPT);
+
+	if (argc && !strcmp(*argv, "--end-of-options")) {
+		argc--;
+		argv++;
+	}
 
 	if (update_modes(&set_opts.cone_mode, &set_opts.sparse_index))
 		return 1;
