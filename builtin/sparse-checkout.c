@@ -555,6 +555,10 @@ static void add_patterns_from_input(struct pattern_list *pl,
 				    FILE *file)
 {
 	int i;
+
+	if (file && argc)
+		die(_("excess command line parameter '%s'"), argv[0]);
+
 	if (core_sparse_checkout_cone) {
 		struct strbuf line = STRBUF_INIT;
 

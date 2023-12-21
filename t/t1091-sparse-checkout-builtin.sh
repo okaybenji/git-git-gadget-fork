@@ -937,6 +937,10 @@ test_expect_success 'check-rules cone mode' '
 	EOF
 
 	git -C bare ls-tree -r --name-only HEAD >all-files &&
+
+	test_must_fail git -C bare sparse-checkout check-rules --cone \
+		--rules-file ../rules excess args <all-files &&
+
 	git -C bare sparse-checkout check-rules --cone \
 		--rules-file ../rules >check-rules-file <all-files &&
 
@@ -947,6 +951,7 @@ test_expect_success 'check-rules cone mode' '
 	git -C repo sparse-checkout check-rules >check-rules-default <all-files &&
 
 	test_grep "deep/deeper1/deepest/a" check-rules-file &&
+	test_grep ! "end-of-options" check-rules-file &&
 	test_grep ! "deep/deeper2" check-rules-file &&
 
 	test_cmp check-rules-file ls-files &&
@@ -959,8 +964,12 @@ test_expect_success 'check-rules non-cone mode' '
 	EOF
 
 	git -C bare ls-tree -r --name-only HEAD >all-files &&
+
+	test_must_fail git -C bare sparse-checkout check-rules --no-cone \
+		--rules-file ../rules excess args <all-files &&
+
 	git -C bare sparse-checkout check-rules --no-cone --rules-file ../rules\
-		>check-rules-file <all-files &&
+		--end-of-options >check-rules-file <all-files &&
 
 	cat rules | git -C repo sparse-checkout set --no-cone --stdin &&
 	git -C repo ls-files -t >out &&
