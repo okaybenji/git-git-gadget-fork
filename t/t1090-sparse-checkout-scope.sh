@@ -54,6 +54,40 @@ test_expect_success 'return to full checkout of main' '
 	test "$(cat b)" = "modified"
 '
 
+test_expect_success 'sparse-checkout set command line parsing' '
+	# baseline
+	git sparse-checkout disable &&
+	git sparse-checkout set --no-cone "a*" &&
+	echo "a*" >expect &&
+	test_cmp .git/info/sparse-checkout expect &&
+
+	# unknown string that looks like a dashed option is
+	# taken as a mere pattern
+	git sparse-checkout disable &&
+	git sparse-checkout set --no-cone --foo "a*" &&
+	test_write_lines "--foo" "a*" >expect &&
+	test_cmp .git/info/sparse-checkout expect &&
+
+	# --end-of-options can be used to protect parameters that
+	# potentially begin with dashes
+	set x --cone "a*" && shift &&
+	git sparse-checkout disable &&
+	git sparse-checkout set --no-cone --end-of-options "$@" &&
+	test_write_lines "$@" >expect &&
+	test_cmp .git/info/sparse-checkout expect &&
+
+	# but writing --end-of-options after what the command does not
+	# recognize is too late; it becomes one of the patterns, so
+	# that the end-user input that happens to be "--end-of-options"
+	# can be passed through.  To be absoutely sure, you should write
+	# --end-of-options yourself before taking "$@" in.
+	set x --foo --end-of-options "a*" && shift &&
+	git sparse-checkout disable &&
+	git sparse-checkout set --no-cone "$@" &&
+	test_write_lines "$@" >expect &&
+	test_cmp .git/info/sparse-checkout expect
+'
+
 test_expect_success 'skip-worktree on files outside sparse patterns' '
 	git sparse-checkout disable &&
 	git sparse-checkout set --no-cone "a*" &&
