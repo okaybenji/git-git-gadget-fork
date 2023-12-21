@@ -498,6 +498,8 @@ int parse_opt_passthru_argv(const struct option *, const char *, int);
 /* value is enum branch_track* */
 int parse_opt_tracking_mode(const struct option *, const char *, int);
 
+void parse_opt_skip_end_of_options(int *argc, const char ***argv);
+
 #define OPT__VERBOSE(var, h)  OPT_COUNTUP('v', "verbose", (var), (h))
 #define OPT__QUIET(var, h)    OPT_COUNTUP('q', "quiet",   (var), (h))
 #define OPT__VERBOSITY(var) { \

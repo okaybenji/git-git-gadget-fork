@@ -334,7 +334,7 @@ test_expect_success 'cone mode: set with nested folders' '
 
 test_expect_success 'cone mode: add independent path' '
 	git -C repo sparse-checkout set deep/deeper1 &&
-	git -C repo sparse-checkout add folder1 &&
+	git -C repo sparse-checkout add --end-of-options folder1 &&
 	cat >expect <<-\EOF &&
 	/*
 	!/*/

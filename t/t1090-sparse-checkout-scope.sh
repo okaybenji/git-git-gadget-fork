@@ -57,6 +57,14 @@ test_expect_success 'return to full checkout of main' '
 test_expect_success 'skip-worktree on files outside sparse patterns' '
 	git sparse-checkout disable &&
 	git sparse-checkout set --no-cone "a*" &&
+	cat .git/info/sparse-checkout >wo-eoo &&
+
+	git sparse-checkout disable &&
+	git sparse-checkout set --no-cone --end-of-options "a*" &&
+	cat .git/info/sparse-checkout >w-eoo &&
+
+	test_cmp wo-eoo w-eoo &&
+
 	git checkout-index --all --ignore-skip-worktree-bits &&
 
 	git ls-files -t >output &&

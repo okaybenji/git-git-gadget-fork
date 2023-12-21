@@ -779,6 +779,7 @@ static int sparse_checkout_add(int argc, const char **argv, const char *prefix)
 			     builtin_sparse_checkout_add_options,
 			     builtin_sparse_checkout_add_usage,
 			     PARSE_OPT_KEEP_UNKNOWN_OPT);
+	parse_opt_skip_end_of_options(&argc, &argv);
 
 	sanitize_paths(argc, argv, prefix, add_opts.skip_checks);
 
@@ -826,6 +827,7 @@ static int sparse_checkout_set(int argc, const char **argv, const char *prefix)
 			     builtin_sparse_checkout_set_options,
 			     builtin_sparse_checkout_set_usage,
 			     PARSE_OPT_KEEP_UNKNOWN_OPT);
+	parse_opt_skip_end_of_options(&argc, &argv);
 
 	if (update_modes(&set_opts.cone_mode, &set_opts.sparse_index))
 		return 1;
@@ -998,6 +1000,7 @@ static int sparse_checkout_check_rules(int argc, const char **argv, const char *
 			     builtin_sparse_checkout_check_rules_options,
 			     builtin_sparse_checkout_check_rules_usage,
 			     PARSE_OPT_KEEP_UNKNOWN_OPT);
+	parse_opt_skip_end_of_options(&argc, &argv);
 
 	if (check_rules_opts.rules_file && check_rules_opts.cone_mode < 0)
 		check_rules_opts.cone_mode = 1;

@@ -1321,3 +1321,11 @@ void die_for_incompatible_opt4(int opt1, const char *opt1_name,
 		break;
 	}
 }
+
+void parse_opt_skip_end_of_options(int *argc, const char ***argv)
+{
+	if (*argc && !strcmp(**argv, "--end-of-options")) {
+		(*argc)--;
+		(*argv)++;
+	}
+}
